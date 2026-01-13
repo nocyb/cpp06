@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njung <njung@student.42.fr>                +#+  +:+       +#+        */
+/*   By: njung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:51:11 by njung             #+#    #+#             */
-/*   Updated: 2026/01/06 19:54:14 by njung            ###   ########.fr       */
+/*   Updated: 2026/01/13 17:40:26 by njung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 ScalarConverter::ScalarConverter() {}
 
-ScalarConverter::ScalarConverter(ScalarConverter const & other)
+ScalarConverter::ScalarConverter(ScalarConverter const &other)
 {
     *this = other;
 }
 
-ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other)
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
 {
     (void)other;
     return *this;
@@ -27,13 +27,16 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other)
 
 ScalarConverter::~ScalarConverter() {}
 
-bool isSpecial(const std::string& literal) {
+bool isSpecial(const std::string &literal)
+{
     return (literal == "nan" || literal == "nanf" ||
             literal == "+inf" || literal == "+inff" ||
-            literal == "-inf" || literal == "-inff");
+            literal == "-inf" || literal == "-inff" || literal == "inf" ||
+            literal == "-nan" || literal == "-nanf" ||
+            literal == "inff");
 }
 
-bool isChar(const std::string& literal)
+bool isChar(const std::string &literal)
 {
     if (literal.length() == 1)
     {
@@ -43,7 +46,7 @@ bool isChar(const std::string& literal)
     return false;
 }
 
-bool isInt(const std::string& literal)
+bool isInt(const std::string &literal)
 {
     size_t i = 0;
 
@@ -59,12 +62,12 @@ bool isInt(const std::string& literal)
     {
         if (!isdigit(literal[i]))
             return false;
-        i++;    
+        i++;
     }
     return true;
 }
 
-bool isFloat(const std::string& literal)
+bool isFloat(const std::string &literal)
 {
     if (literal.empty())
         return false;
@@ -101,7 +104,7 @@ bool isFloat(const std::string& literal)
     return false;
 }
 
-bool isDouble(const std::string& literal)
+bool isDouble(const std::string &literal)
 {
     if (literal.empty())
         return false;
@@ -134,10 +137,56 @@ bool isDouble(const std::string& literal)
         return true;
     return false;
 }
-void ScalarConverter::convert(const std::string& literal)
+
+void ScalarConverter::convert(const std::string &literal)
 {
     if (isSpecial(literal))
     {
-        // impossible blabla;
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        if (literal == "nan" || literal == "nanf")
+        {
+            std::cout << "float: nanf" << std::endl;
+            std::cout << "double: nan" << std::endl;
+        }
+        else if (literal == "inf" || literal == "+inf" || literal == "inff" || literal == "+inff")
+        {
+            std::cout << "float: +inff" << std::endl;
+            std::cout << "double: +inf" << std::endl;
+        }
+        else if (literal == "-inf" || literal == "-inff")
+        {
+            std::cout << "float: -inff" << std::endl;
+            std::cout << "double: -inf" << std::endl;
+        }
+        return;
     }
+    if (isChar(literal))
+    {
+        char c = literal[0];
+
+        int i = static_cast<int>(c);
+        float f = static_cast<float>(c);
+        double d = static_cast<double>(c);
+
+        std::cout << "char: '" << c << "'" << std::endl;
+        std::cout << "int: " << i << std::endl;
+        std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+        std::cout << "double: " << d << std::endl;
+        return;
+    }
+    if (isInt(literal))
+    {
+        double temp = strtod(literal.c_str(), NULL); // overflow check
+        if (temp < INT_MIN || temp > INT_MAX)
+        {
+            std::cout << "char: impossible" << std::endl;
+            std::cout << "int: impossible" << std::endl;
+            std::cout << "float: " << static_cast<float>(temp) << std::endl;
+            std::cout << "double: " << temp << std::endl;
+            return ;
+        }
+        int realInt = static_cast<int>(temp);
+        
+    }   
 }
