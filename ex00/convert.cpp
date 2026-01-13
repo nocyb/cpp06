@@ -6,7 +6,7 @@
 /*   By: njung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:51:11 by njung             #+#    #+#             */
-/*   Updated: 2026/01/13 19:03:33 by njung            ###   ########.fr       */
+/*   Updated: 2026/01/13 20:00:09 by njung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool isFloat(const std::string &literal)
         return false;
     int nbPoints = 0;
     int nbDigit = 0;
-    int i = 0;
+    size_t i = 0;
     if (literal[0] == '+' || literal[0] == '-')
     {
         if (literal.length() < 3)
@@ -110,7 +110,7 @@ bool isDouble(const std::string &literal)
         return false;
     int nbPoints = 0;
     int nbDigit = 0;
-    int i = 0;
+    size_t i = 0;
     if (literal[0] == '+' || literal[0] == '-')
     {
         if (literal.length() < 2)
@@ -144,7 +144,7 @@ void printChar(double value)
     if (value < 0 || value > 127 || std::isnan(value))
         std::cout << "impossible" << std::endl;
     else if (!isprint(static_cast<int>(value)))
-        std::cout << "non displayable" << std::endl;
+        std::cout << "Non displayable" << std::endl;
     else
         std::cout << "'" << static_cast<char>(value) << "'" << std::endl;
 }
@@ -202,8 +202,8 @@ void ScalarConverter::convert(const std::string &literal)
         printChar(temp);
         std::cout << "int: " << realInt << std::endl;
         std::cout << std::fixed << std::setprecision(1);
-        std::cout << "float: " << static_cast<float>(realInt) << ".0f" << std::endl;
-        std::cout << "double: " << static_cast<double>(realInt) << ".0" << std::endl;
+        std::cout << "float: " << static_cast<float>(realInt) << "f" << std::endl;
+        std::cout << "double: " << static_cast<double>(realInt) << std::endl;
         return;
     }
     if (isFloat(literal))
@@ -213,7 +213,7 @@ void ScalarConverter::convert(const std::string &literal)
         char c = static_cast<char>(f);
         int i = static_cast<int>(f);
         double d = static_cast<double>(f);
-        printChar(d);
+        printChar(c);
         if (temp < INT_MIN || temp > INT_MAX)
             std::cout << "int: impossible" << std::endl;
         else
@@ -225,7 +225,7 @@ void ScalarConverter::convert(const std::string &literal)
     }
     if (isDouble(literal))
     {
-        double realDouble = strtod(literal.c_str(), NULL);
+        double realDouble = strtod(literal.c_str()  , NULL);
         char c = static_cast<char>(realDouble);
         int i = static_cast<int>(realDouble);
         float f = static_cast<float>(realDouble);
@@ -234,6 +234,11 @@ void ScalarConverter::convert(const std::string &literal)
             std::cout << "int: impossible" << std::endl;
         else
             std::cout << "int: " << i << std::endl;
-        
-    }   
+        std::cout << std::fixed << std::setprecision(1);
+        std::cout << "float: " << f << "f" << std::endl;
+        std::cout << "double: " << realDouble << std::endl;
+        return;
+    }
+    else
+        std::cout << "Error" << std::endl;   
 }

@@ -6,7 +6,7 @@
 /*   By: njung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:49:32 by njung             #+#    #+#             */
-/*   Updated: 2026/01/13 15:56:30 by njung            ###   ########.fr       */
+/*   Updated: 2026/01/13 19:47:58 by njung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 #include <iostream>
 #include <string>
 #include <cctype>
-#include <limits>
+#include <climits>
 #include <iomanip>
+#include <cstdlib>
+
 
 class ScalarConverter
 {
