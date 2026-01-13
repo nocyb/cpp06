@@ -6,7 +6,7 @@
 /*   By: njung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:51:11 by njung             #+#    #+#             */
-/*   Updated: 2026/01/13 18:40:29 by njung            ###   ########.fr       */
+/*   Updated: 2026/01/13 19:03:33 by njung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,14 +193,47 @@ void ScalarConverter::convert(const std::string &literal)
         {
             std::cout << "char: impossible" << std::endl;
             std::cout << "int: impossible" << std::endl;
-            std::cout << "float: " << static_cast<float>(temp) << std::endl;
+            std::cout << std::fixed << std::setprecision(1);
+            std::cout << "float: " << static_cast<float>(temp) << "f" << std::endl;
             std::cout << "double: " << temp << std::endl;
-            return ;
+            return;
         }
         int realInt = static_cast<int>(temp);
         printChar(temp);
         std::cout << "int: " << realInt << std::endl;
+        std::cout << std::fixed << std::setprecision(1);
         std::cout << "float: " << static_cast<float>(realInt) << ".0f" << std::endl;
         std::cout << "double: " << static_cast<double>(realInt) << ".0" << std::endl;
+        return;
+    }
+    if (isFloat(literal))
+    {
+        double temp = strtod(literal.c_str(), NULL);
+        float f = static_cast<float>(temp);
+        char c = static_cast<char>(f);
+        int i = static_cast<int>(f);
+        double d = static_cast<double>(f);
+        printChar(d);
+        if (temp < INT_MIN || temp > INT_MAX)
+            std::cout << "int: impossible" << std::endl;
+        else
+            std::cout << "int: " << i << std::endl;
+        std::cout << std::fixed << std::setprecision(1);
+        std::cout << "float: " << f << "f" << std::endl;
+        std::cout << "double " << d << std::endl;
+        return;
+    }
+    if (isDouble(literal))
+    {
+        double realDouble = strtod(literal.c_str(), NULL);
+        char c = static_cast<char>(realDouble);
+        int i = static_cast<int>(realDouble);
+        float f = static_cast<float>(realDouble);
+        printChar(c);
+        if (realDouble < INT_MIN || realDouble > INT_MAX)
+            std::cout << "int: impossible" << std::endl;
+        else
+            std::cout << "int: " << i << std::endl;
+        
     }   
 }
