@@ -6,7 +6,7 @@
 /*   By: njung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:51:11 by njung             #+#    #+#             */
-/*   Updated: 2026/01/13 17:40:26 by njung            ###   ########.fr       */
+/*   Updated: 2026/01/13 18:40:29 by njung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,17 @@ bool isDouble(const std::string &literal)
     return false;
 }
 
+void printChar(double value)
+{
+    std::cout << "char: ";
+    if (value < 0 || value > 127 || std::isnan(value))
+        std::cout << "impossible" << std::endl;
+    else if (!isprint(static_cast<int>(value)))
+        std::cout << "non displayable" << std::endl;
+    else
+        std::cout << "'" << static_cast<char>(value) << "'" << std::endl;
+}
+
 void ScalarConverter::convert(const std::string &literal)
 {
     if (isSpecial(literal))
@@ -187,6 +198,9 @@ void ScalarConverter::convert(const std::string &literal)
             return ;
         }
         int realInt = static_cast<int>(temp);
-        
+        printChar(temp);
+        std::cout << "int: " << realInt << std::endl;
+        std::cout << "float: " << static_cast<float>(realInt) << ".0f" << std::endl;
+        std::cout << "double: " << static_cast<double>(realInt) << ".0" << std::endl;
     }   
 }
