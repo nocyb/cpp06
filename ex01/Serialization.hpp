@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.hpp                                        :+:      :+:    :+:   */
+/*   Serialization.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: njung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/06 17:49:32 by njung             #+#    #+#             */
-/*   Updated: 2026/01/13 20:03:31 by njung            ###   ########.fr       */
+/*   Created: 2026/01/13 20:02:55 by njung             #+#    #+#             */
+/*   Updated: 2026/01/14 16:29:07 by njung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,22 @@
 #include <climits>
 #include <iomanip>
 #include <cstdlib>
+#include <stdint.h>
 
+struct Data {
+    int id;
+    std::string name;
+};
 
-class ScalarConverter
+class Serializer
 {
     public:
-    static void convert(const std::string& literal);
-    ~ScalarConverter();
+    static uintptr_t serialize(Data* ptr);
+    static Data* deserialize(uintptr_t raw);
+    ~Serializer();
 
     private:
-    ScalarConverter();
-    ScalarConverter(ScalarConverter const & other);
-    ScalarConverter & operator=(ScalarConverter const & other);
+    Serializer();
+    Serializer(Serializer const & other);
+    Serializer & operator=(Serializer const & other);
 };
